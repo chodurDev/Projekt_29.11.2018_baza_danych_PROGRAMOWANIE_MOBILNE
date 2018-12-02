@@ -31,3 +31,4 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 }
+//TODO DOROBIC USOWANIE ELEMENTU ORAZ AKTUALIZACJE

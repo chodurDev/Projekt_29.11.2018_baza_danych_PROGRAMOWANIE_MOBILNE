@@ -3,6 +3,8 @@ package com.example.kamil.e_pillbox;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,8 +59,29 @@ private LekarstwoDAO lekDAO;
         reloadListaLekow();
 
 
+            etWyszukaj.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    String wykuszajLekInput =etWyszukaj.getText().toString().trim();
+                    if(wykuszajLekInput.isEmpty())reloadListaLekow();
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+
+
     }
 
+
+   
 
     private void reloadListaLekow() {
         List<Lekarstwo> allLeki = lekDAO.getAllData();
@@ -67,9 +90,10 @@ private LekarstwoDAO lekDAO;
         listaLekow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView v=view.findViewById(R.id.lekarstwoNazwa);
-                Toast.makeText(getApplicationContext(),"zaznaczony Item to: "+v.getText(),Toast.LENGTH_SHORT).show();
-                AktywnoscZazylem(view);
+                TextView tv_nazwa=view.findViewById(R.id.lekarstwoNazwa);
+                TextView tv_ilosc=view.findViewById(R.id.lekarstwoIlosc);
+                //Toast.makeText(getApplicationContext(),"zaznaczony Item to: "+v.getText(),Toast.LENGTH_SHORT).show();
+                AktywnoscZazylem(view,tv_nazwa,tv_ilosc);
             }
 
 
@@ -90,15 +114,22 @@ private LekarstwoDAO lekDAO;
         startActivity(intent);
 
     }
-    public void AktywnoscZazylem(View view){
+    public void AktywnoscZazylem(View view,TextView tvNazwa,TextView tvIlosc){
         Intent intent = new Intent(this,Drug.class);
+        intent.putExtra("lek_nazwa",tvNazwa.getText());
+        intent.putExtra("lek_ilosc",tvIlosc.getText());
         startActivity(intent);
     }
     public void Wyszukaj(View view){
         String wyszukanaNazwa = etWyszukaj.getText().toString();
-        List<Lekarstwo> lek=lekDAO.getLekByNazwa(wyszukanaNazwa);
-        LekarstwoAdapter adapter = new LekarstwoAdapter(this,lek);
-        listaLekow.setAdapter(adapter);
-
+        if(!wyszukanaNazwa.isEmpty()) {
+            List<Lekarstwo> lek = lekDAO.getLekByNazwa(wyszukanaNazwa);
+            LekarstwoAdapter adapter = new LekarstwoAdapter(this, lek);
+            listaLekow.setAdapter(adapter);
+        }
+        else
+        {
+            Toast.makeText(this,"Pole wyszukaj jest puste!\n \t\tWprowadz frazę",Toast.LENGTH_SHORT).show();
+        }
     }
 }

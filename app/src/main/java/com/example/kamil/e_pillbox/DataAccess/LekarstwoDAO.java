@@ -25,6 +25,12 @@ public class LekarstwoDAO {
         cv.put(Lek_interface.Columns.LEK_DATA,lek.getDataWaznosci());
         dbHelper.getWritableDatabase().insert(Lek_interface.TABLE_NAME,null,cv);
     }
+
+    public void deleteLek(final String nazwaLeku){
+        dbHelper.getWritableDatabase().delete(Lek_interface.TABLE_NAME," "+Lek_interface.Columns.LEK_NAZWA+" LIKE ? ",new String[]{nazwaLeku});
+    }
+
+
     public List<Lekarstwo> getLekByNazwa(final String nazwaLeku){
         List<Lekarstwo> lekarstwa=new LinkedList<Lekarstwo>();
         Cursor cursor = dbHelper.getReadableDatabase().rawQuery("SELECT * FROM "+Lek_interface.TABLE_NAME+" WHERE "+Lek_interface.Columns.LEK_NAZWA+" LIKE "+"'"+nazwaLeku+"'",null);
