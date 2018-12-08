@@ -2,15 +2,26 @@ package com.example.kamil.e_pillbox.pojo;
 
 import android.content.Intent;
 
-public class Lekarstwo {
+import java.io.Serializable;
+@SuppressWarnings("serial")
+public class Lekarstwo implements Serializable {
     private Integer id;
     private String nazwaLeku;
     private String iloscOpakowanie;
     private String dataWaznosci;
+    private String isZazyte;
 
 
 
+    public String getIsZazyte() {
+        return isZazyte;
+    }
 
+    public void setIsZazyte(String isZazyte) {
+        this.isZazyte = isZazyte;
+    }
+
+    //dopisane aby dodac isZazyte
     public Integer getId() {
         return id;
     }
@@ -48,4 +59,6 @@ public class Lekarstwo {
     public String toString() {
         return super.toString();
     }
+
+
 }

@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import com.example.kamil.e_pillbox.DataAccess.LekarstwoDAO;
 import com.example.kamil.e_pillbox.pojo.Lekarstwo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,31 +84,27 @@ private LekarstwoDAO lekDAO;
     }
 
 
-   
+
 
     private void reloadListaLekow() {
         List<Lekarstwo> allLeki = lekDAO.getAllData();
         LekarstwoAdapter adapter = new LekarstwoAdapter(this,allLeki);
+
+
+
         listaLekow.setAdapter(adapter);
+
         listaLekow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView tv_nazwa=view.findViewById(R.id.lekarstwoNazwa);
                 TextView tv_ilosc=view.findViewById(R.id.lekarstwoIlosc);
-                //Toast.makeText(getApplicationContext(),"zaznaczony Item to: "+v.getText(),Toast.LENGTH_SHORT).show();
-                AktywnoscZazylem(view,tv_nazwa,tv_ilosc);
+                parent.getSelectedItem();
+                //AktywnoscZazylem(view,tv_nazwa,tv_ilosc);
+                AktywnoscZazylem(view,(Lekarstwo)parent.getItemAtPosition(position));
+
             }
-
-
         });
-        //TODO implementacja długiego kliknięcia
-//        listaLekow.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//
-//            }
-//        });
-
 
     }
 
@@ -114,10 +113,10 @@ private LekarstwoDAO lekDAO;
         startActivity(intent);
 
     }
-    public void AktywnoscZazylem(View view,TextView tvNazwa,TextView tvIlosc){
+    public void AktywnoscZazylem(View view,Lekarstwo lekarstwo){
         Intent intent = new Intent(this,Drug.class);
-        intent.putExtra("lek_nazwa",tvNazwa.getText());
-        intent.putExtra("lek_ilosc",tvIlosc.getText());
+        intent.putExtra("lek_obiekt", lekarstwo);
+
         startActivity(intent);
     }
     public void Wyszukaj(View view){

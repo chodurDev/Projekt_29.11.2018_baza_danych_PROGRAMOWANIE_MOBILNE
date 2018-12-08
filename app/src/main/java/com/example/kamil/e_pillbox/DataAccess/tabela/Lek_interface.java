@@ -8,5 +8,6 @@ public interface Lek_interface {
         String LEK_NAZWA="nazwa_leku";
         String LEK_ILOSC="ilosc_w_opakowaniu";
         String LEK_DATA="data_waznosci";
+        String LEK_ZAZYCIE="czy_jest_zazywany";//dopisane aby dodac isZazyte
     }
 }

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.kamil.e_pillbox.DataAccess.tabela.Lek_interface;
 
 public class DBHelper extends SQLiteOpenHelper {
-    private final static int DB_VERSION=2;//domyślnie jest 1
+    private final static int DB_VERSION=5;//domyślnie jest 1
     private final static String DB_NAME="BazaLekow.db";
 
     public DBHelper(Context context) {
@@ -22,7 +22,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 +Lek_interface.Columns.LEK_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "
                 +Lek_interface.Columns.LEK_NAZWA+" TEXT , "
                 +Lek_interface.Columns.LEK_ILOSC+" TEXT , "
-                +Lek_interface.Columns.LEK_DATA+" TEXT )");
+                +Lek_interface.Columns.LEK_DATA+" TEXT , "
+                +Lek_interface.Columns.LEK_ZAZYCIE+" TEXT DEFAULT 0 )");//dodanie kolumny zazycie
     }
 
     @Override
@@ -31,4 +32,3 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 }
-//TODO DOROBIC USOWANIE ELEMENTU ORAZ AKTUALIZACJE

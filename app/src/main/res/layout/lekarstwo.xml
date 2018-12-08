@@ -5,20 +5,29 @@
 
         <TextView
             android:id="@+id/lekarstwoNazwa"
-            android:layout_width="127dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"></TextView>
 
         <TextView
             android:id="@+id/lekarstwoIlosc"
-            android:layout_width="126dp"
+            android:layout_width="52dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <TextView
             android:id="@+id/lekarstwoData"
-            android:layout_width="133dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
+
+        <CheckBox
+            android:id="@+id/cbZazyte"
+            android:layout_width="1dp"
+            android:layout_height="19dp"
+            android:layout_weight="1"
+            android:focusable="false"/>
+            <!--android:focusableInTouchMode="false" -->
+            />
 
 
 </LinearLayout>

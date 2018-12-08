@@ -47,18 +47,22 @@ public class Drug_options extends AppCompatActivity {
     public void addLekDoBazy(View view){
         Lekarstwo lek=new Lekarstwo();
         String nazwaLeku = nazwa_leku.getText().toString();
-//        int iloscLeku =Integer.parseInt(ilosc.getText().toString());
         String iloscLeku=ilosc.getText().toString();
         String dataLeku = data_waznosci.getText().toString();
+        if(!nazwaLeku.isEmpty()) {
+            lek.setNazwaLeku(nazwaLeku);
+            lek.setIloscOpakowanie(iloscLeku);
+            lek.setDataWaznosci(dataLeku);
 
-        lek.setNazwaLeku(nazwaLeku);
-        lek.setIloscOpakowanie(iloscLeku);
-        lek.setDataWaznosci(dataLeku);
+            lekDAO.insertLek(lek);
 
-        lekDAO.insertLek(lek);
-
-        Intent intent=new Intent(this,MainActivity.class);
-        startActivity(intent);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        else
+        {
+         Toast.makeText(this,"Pola nie mogą być puste!\n Wprowadź nazwę",Toast.LENGTH_SHORT).show();
+        }
 
 
     }

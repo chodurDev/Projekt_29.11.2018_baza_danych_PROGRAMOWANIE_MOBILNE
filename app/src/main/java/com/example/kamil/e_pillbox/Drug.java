@@ -27,21 +27,24 @@ private LekarstwoDAO lekDAO;
         final Lekarstwo lek=new Lekarstwo();
 
         nazwaLeku=findViewById(R.id.drug_name);
+        Intent i=getIntent();
+        final Lekarstwo lekarstwo=(Lekarstwo)i.getSerializableExtra("lek_obiekt");
 
 
+        nazwaLeku.setText(lekarstwo.getNazwaLeku()+" "+lekarstwo.getIloscOpakowanie());
 
-        nazwaLeku.setText(getIntent().getStringExtra("lek_nazwa")+" "+getIntent().getStringExtra("lek_ilosc"));
+
 
         btUsun = findViewById(R.id.btUsun);
         btUsun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usunZBazy(v,getIntent().getStringExtra("lek_nazwa"));
+                usunZBazy(v,lekarstwo);
             }
         });
     }
-    public void usunZBazy(View view,String lekNazwa){
-        lekDAO.deleteLek(lekNazwa);
+    public void usunZBazy(View view,Lekarstwo lekarstwo){
+        lekDAO.deleteLek(lekarstwo);
         Toast.makeText(this,"usunieto z bazy ",Toast.LENGTH_SHORT).show();
         Intent intent= new Intent(this,MainActivity.class);
         startActivity(intent);
