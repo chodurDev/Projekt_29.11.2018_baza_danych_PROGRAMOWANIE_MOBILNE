@@ -104,6 +104,9 @@ data_waznosci.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             lekDAO.insertLek(lek);
 
+            Intent myIntent = new Intent("com.example.kamil.e_pillbox.adddrug");
+            sendBroadcast(myIntent);
+
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
@@ -111,8 +114,6 @@ data_waznosci.setOnFocusChangeListener(new View.OnFocusChangeListener() {
         {
          Toast.makeText(this,"Pola nie mogą być puste!\n Wprowadź nazwę",Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
 
