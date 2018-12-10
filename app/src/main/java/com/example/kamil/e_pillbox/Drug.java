@@ -1,11 +1,15 @@
 package com.example.kamil.e_pillbox;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,13 +19,21 @@ import com.example.kamil.e_pillbox.pojo.Lekarstwo;
 public class Drug extends AppCompatActivity {
 private TextView nazwaLeku;
 private Button btUsun;
+private Button btZazylem;
+private EditText etDawka;
+
+public SharedPreferences sharedPreferences;
 
 private LekarstwoDAO lekDAO;
 
+    @SuppressLint("WorldReadableFiles")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drug);
+
+        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+
 
         lekDAO=new LekarstwoDAO(this);
         final Lekarstwo lek=new Lekarstwo();
@@ -33,7 +45,9 @@ private LekarstwoDAO lekDAO;
 
         nazwaLeku.setText(lekarstwo.getNazwaLeku()+" "+lekarstwo.getIloscOpakowanie());
 
-
+        btZazylem=findViewById(R.id.btZazylem);
+        etDawka=findViewById(R.id.etDawka);
+        onLoad();
 
         btUsun = findViewById(R.id.btUsun);
         btUsun.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +62,11 @@ private LekarstwoDAO lekDAO;
         Toast.makeText(this,"usunieto z bazy ",Toast.LENGTH_SHORT).show();
         Intent intent= new Intent(this,MainActivity.class);
         startActivity(intent);
-        //TODO wywaołanie metody do usuwania elementu z bazy
+
+    }
+    public void onLoad(){
+
+        String string = sharedPreferences.getString("dawkaDomyslna", "nie dziala");
+        etDawka.setText(string);
     }
 }
