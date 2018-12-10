@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 public class AddDrugReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
-        Log.d("xxx", "Dodano lek do bazy");
+        Log.d("adddrug", "Dodano lek do bazy");
 
         CharSequence text = "Dodano lek do bazy!";
         int duration = Toast.LENGTH_SHORT;
