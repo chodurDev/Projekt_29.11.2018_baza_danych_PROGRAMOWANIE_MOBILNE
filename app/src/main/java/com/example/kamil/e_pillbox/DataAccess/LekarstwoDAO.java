@@ -12,7 +12,7 @@ import com.example.kamil.e_pillbox.pojo.Lekarstwo;
 import java.util.LinkedList;
 import java.util.List;
 
-import static java.lang.Boolean.valueOf;
+
 
 public class LekarstwoDAO {
     private DBHelper dbHelper;
@@ -33,7 +33,7 @@ public class LekarstwoDAO {
         dbHelper.getWritableDatabase().delete(Lek_interface.TABLE_NAME," "+Lek_interface.Columns.LEK_ID+" = ? ",new String[]{lek.getId().toString()});
     }
     public void updateLekByCheckBox(final Lekarstwo lek){
-        Log.d("epilbox","updateLekByCheckbox "+lek.getNazwaLeku()+" "+lek.getIsZazyte()+" id: "+lek.getId().toString());
+        //Log.d("epilbox","updateLekByCheckbox "+lek.getNazwaLeku()+" "+lek.getIsZazyte()+" id: "+lek.getId().toString());
 
         ContentValues cv=new ContentValues();
         cv.put(Lek_interface.Columns.LEK_ZAZYCIE,lek.getIsZazyte());
@@ -46,7 +46,7 @@ public class LekarstwoDAO {
 
     public List<Lekarstwo> getLekByNazwa(final String nazwaLeku){
         List<Lekarstwo> lekarstwa=new LinkedList<Lekarstwo>();
-        Cursor cursor = dbHelper.getReadableDatabase().rawQuery("SELECT * FROM "+Lek_interface.TABLE_NAME+" WHERE "+Lek_interface.Columns.LEK_NAZWA+" LIKE "+"'%"+nazwaLeku+"%'",null);
+        Cursor cursor = dbHelper.getReadableDatabase().rawQuery("SELECT * FROM "+Lek_interface.TABLE_NAME+" WHERE "+Lek_interface.Columns.LEK_NAZWA+" LIKE "+"'%"+nazwaLeku+"%' ORDER BY "+Lek_interface.Columns.LEK_ZAZYCIE+" DESC",null);
         while (cursor.moveToNext()){
             lekarstwa.add(mapCursorToLek(cursor));
         }
@@ -84,7 +84,7 @@ public class LekarstwoDAO {
         lek.setIloscOpakowanie(cursor.getString(iloscColumnId));
         lek.setDataWaznosci(cursor.getString(dataColumnId));
         lek.setIsZazyte(cursor.getString(zazycieColumnId));
-        Log.d("epilbox", "mapCursorToLek: "+cursor.getString(zazycieColumnId));//zazycie dopisane
+        //Log.d("epilbox", "mapCursorToLek: "+cursor.getString(zazycieColumnId));//zazycie dopisane
         return lek;
     }
 }

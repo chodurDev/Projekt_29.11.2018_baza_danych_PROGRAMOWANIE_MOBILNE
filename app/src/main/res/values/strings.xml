@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">E-pillBox</string>
     <string name="data_sample">12-12-2012</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

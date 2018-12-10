@@ -85,7 +85,7 @@ data_waznosci.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
             {
-                data_waznosci.setText(dayOfMonth + "-" + monthOfYear + "-" + year);
+                data_waznosci.setText(dayOfMonth + "-" + (monthOfYear+1) + "-" + year);
             }};
         DatePickerDialog dpDialog=new DatePickerDialog(this, listener, year, month, day);
         dpDialog.show();

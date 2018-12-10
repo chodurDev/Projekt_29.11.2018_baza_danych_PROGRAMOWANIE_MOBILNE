@@ -16,9 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Drug_options"></activity>
-        <activity android:name=".Drug"></activity>
+        <activity android:name=".Drug_options" />
+        <activity android:name=".Drug" />
+        <activity android:name=".Main_Option" />
 
+        <service
+            android:name=".MyServiceDataWaznosci"
+            android:enabled="true"
+            android:exported="true"
+            android:process=".MyServiceDataWaznosci"></service>
     </application>
 
 </manifest>
