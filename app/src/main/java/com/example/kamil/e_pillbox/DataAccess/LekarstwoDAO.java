@@ -58,7 +58,7 @@ public class LekarstwoDAO {
 
         String[] columns={Lek_interface.Columns.LEK_ID,Lek_interface.Columns.LEK_NAZWA,Lek_interface.Columns.LEK_ILOSC,Lek_interface.Columns.LEK_DATA,Lek_interface.Columns.LEK_ZAZYCIE};//zazycie dopisane
 
-        Cursor cursor=dbHelper.getReadableDatabase().query(Lek_interface.TABLE_NAME,columns,null,null,null,null,null);
+        Cursor cursor=dbHelper.getReadableDatabase().query(Lek_interface.TABLE_NAME,columns,null,null,null,null,Lek_interface.Columns.LEK_ZAZYCIE+" DESC");
 
 
             while (cursor.moveToNext()){

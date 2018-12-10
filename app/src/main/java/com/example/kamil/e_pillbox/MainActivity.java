@@ -1,11 +1,14 @@
 package com.example.kamil.e_pillbox;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,13 +28,15 @@ import com.example.kamil.e_pillbox.pojo.Lekarstwo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MainActivity extends AppCompatActivity {
 private ListView listaLekow;
 private Button bDodajLek;
-private ImageButton bWyszukajLek;
 private EditText etWyszukaj;
 private LekarstwoDAO lekDAO;
+
+//TODO Zrobic obsługe jesli jest klikniety checkbox przeładować obraz
 
     private static final String TAG = "MyActivity";
     @Override
@@ -39,17 +44,19 @@ private LekarstwoDAO lekDAO;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final IntentFilter filter = new IntentFilter();
+        AddDrugReceiver receiver=new AddDrugReceiver();
+        filter.addAction("com.example.kamil.e_pillbox.adddrug");
+        this.registerReceiver(receiver, filter);
+
+
+
+
+
+
         listaLekow=findViewById(R.id.listView);
         bDodajLek=findViewById(R.id.button);
-        bWyszukajLek=findViewById(R.id.btWyszukaj);
         etWyszukaj=findViewById(R.id.etWyszukajLek);
-
-        bWyszukajLek.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Wyszukaj(v);
-            }
-        });
         bDodajLek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,22 +65,24 @@ private LekarstwoDAO lekDAO;
         });
         lekDAO=new LekarstwoDAO(this);
 
-
         reloadListaLekow();
 
-
+//dynamiczne wyszukiwanie po nazwie
             etWyszukaj.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
+                   }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String wykuszajLekInput =etWyszukaj.getText().toString().trim();
-                    if(wykuszajLekInput.isEmpty())reloadListaLekow();
-                }
+                    String wyszukajLekInput =etWyszukaj.getText().toString();
+                    if(wyszukajLekInput.isEmpty()){
+                        reloadListaLekow();
+                    }else{
+                        reloadBySearching(wyszukajLekInput);
+                    }
 
+                }
                 @Override
                 public void afterTextChanged(Editable s) {
 
@@ -81,33 +90,36 @@ private LekarstwoDAO lekDAO;
             });
 
 
-    }
-
-
-
-
-    private void reloadListaLekow() {
-        List<Lekarstwo> allLeki = lekDAO.getAllData();
-        LekarstwoAdapter adapter = new LekarstwoAdapter(this,allLeki);
-
-
-
-        listaLekow.setAdapter(adapter);
-
         listaLekow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView tv_nazwa=view.findViewById(R.id.lekarstwoNazwa);
-                TextView tv_ilosc=view.findViewById(R.id.lekarstwoIlosc);
                 parent.getSelectedItem();
-                //AktywnoscZazylem(view,tv_nazwa,tv_ilosc);
                 AktywnoscZazylem(view,(Lekarstwo)parent.getItemAtPosition(position));
 
             }
         });
 
+
+
     }
 
+
+
+//ladowanie calej listy lekow
+    public void reloadListaLekow() {
+        List<Lekarstwo> allLeki = lekDAO.getAllData();
+        LekarstwoAdapter adapter = new LekarstwoAdapter(this,allLeki);
+        listaLekow.setAdapter(adapter);
+
+
+    }
+//dynamiczne wyszukiwanie po nazwie
+    public void reloadBySearching(String wyszukajLekInput){
+
+        List<Lekarstwo> lek = lekDAO.getLekByNazwa(wyszukajLekInput);
+        LekarstwoAdapter adapter = new LekarstwoAdapter(this, lek);
+        listaLekow.setAdapter(adapter);
+    }
     public void AktywnoscDodajLek(View view){
         Intent intent = new Intent(this,Drug_options.class);
         startActivity(intent);
@@ -119,16 +131,5 @@ private LekarstwoDAO lekDAO;
 
         startActivity(intent);
     }
-    public void Wyszukaj(View view){
-        String wyszukanaNazwa = etWyszukaj.getText().toString();
-        if(!wyszukanaNazwa.isEmpty()) {
-            List<Lekarstwo> lek = lekDAO.getLekByNazwa(wyszukanaNazwa);
-            LekarstwoAdapter adapter = new LekarstwoAdapter(this, lek);
-            listaLekow.setAdapter(adapter);
-        }
-        else
-        {
-            Toast.makeText(this,"Pole wyszukaj jest puste!\n \t\tWprowadz frazę",Toast.LENGTH_SHORT).show();
-        }
-    }
+
 }

@@ -66,6 +66,7 @@ public class LekarstwoAdapter extends ArrayAdapter {
 
                 lekDAO.updateLekByCheckBox(lekarstwo);
 
+
             }
         });
 
