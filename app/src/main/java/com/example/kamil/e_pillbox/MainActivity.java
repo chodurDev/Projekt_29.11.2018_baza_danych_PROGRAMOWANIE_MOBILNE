@@ -1,8 +1,9 @@
 package com.example.kamil.e_pillbox;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
 private ListView listaLekow;
 private Button bDodajLek;
 private EditText etWyszukaj;
+
+private ImageButton bOption;
+
 private LekarstwoDAO lekDAO;
 
 //TODO Zrobic obsługe jesli jest klikniety checkbox przeładować obraz
@@ -44,19 +48,23 @@ private LekarstwoDAO lekDAO;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final IntentFilter filter = new IntentFilter();
-        AddDrugReceiver receiver=new AddDrugReceiver();
-        filter.addAction("com.example.kamil.e_pillbox.adddrug");
-        this.registerReceiver(receiver, filter);
-
-
-
-
+        Intent serviceIntent = new Intent(this, MyServiceDataWaznosci.class);
+        startService(serviceIntent);
 
 
         listaLekow=findViewById(R.id.listView);
         bDodajLek=findViewById(R.id.button);
         etWyszukaj=findViewById(R.id.etWyszukajLek);
+        bOption=findViewById(R.id.imageButton);
+
+        bOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AktywnoscOpcjeGlowne(v);
+            }
+        });
+
+
         bDodajLek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +113,9 @@ private LekarstwoDAO lekDAO;
 
 
 
+
+
+
 //ladowanie calej listy lekow
     public void reloadListaLekow() {
         List<Lekarstwo> allLeki = lekDAO.getAllData();
@@ -131,5 +142,12 @@ private LekarstwoDAO lekDAO;
 
         startActivity(intent);
     }
+
+
+    public void AktywnoscOpcjeGlowne(View view){
+        Intent intent = new Intent(this,Main_Option.class);
+        startActivity(intent);
+    }
+
 
 }
