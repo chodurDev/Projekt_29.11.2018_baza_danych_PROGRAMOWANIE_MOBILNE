@@ -3,6 +3,7 @@ package com.example.kamil.e_pillbox;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,6 +48,11 @@ private LekarstwoDAO lekDAO;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final IntentFilter filter = new IntentFilter();
+        AddDrugReceiver receiver=new AddDrugReceiver();
+        filter.addAction("com.example.kamil.e_pillbox.adddrug");
+        this.registerReceiver(receiver, filter);
 
         Intent serviceIntent = new Intent(this, MyServiceDataWaznosci.class);
         startService(serviceIntent);

@@ -3,16 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/lekarstwoNazwa2"
         android:layout_width="96dp"
         android:layout_height="21dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="8dp"
         android:text="Data ważnosci"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
@@ -23,14 +22,13 @@
 
     <TextView
         android:id="@+id/lekarstwoIlosc2"
-        android:layout_width="121dp"
+        android:layout_width="40dp"
         android:layout_height="21dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginBottom="8dp"
         android:layout_weight="1"
-        android:text="Ile w opakowaniu"
+        android:text="Ile"
         android:textAlignment="center"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
@@ -43,9 +41,7 @@
         android:id="@+id/lekarstwoData2"
         android:layout_width="47dp"
         android:layout_height="21dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:layout_weight="1"
         android:text="Nazwa"
@@ -57,7 +53,7 @@
 
     <FrameLayout
         android:id="@+id/frameLayout2"
-        android:layout_width="293dp"
+        android:layout_width="316dp"
         android:layout_height="306dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
@@ -66,32 +62,39 @@
 
         <ListView
             android:id="@+id/listView"
-            android:layout_width="301dp"
-            android:layout_height="412dp" />
+            android:layout_width="312dp"
+            android:layout_height="wrap_content" />
 
     </FrameLayout>
 
     <Button
         android:id="@+id/button"
-        android:layout_width="232dp"
+        android:layout_width="190dp"
         android:layout_height="54dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:text="Dodaj lek"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
+        app:layout_constraintHorizontal_bias="0.153"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/etWyszukajLek"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="59dp"
         android:layout_height="54dp"
+        android:layout_marginStart="3dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout2"
+        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/btWyszukaj"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@android:drawable/ic_menu_manage" />
 
     <EditText
@@ -101,12 +104,11 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="2dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Wyszukaj"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btWyszukaj"
         app:layout_constraintStart_toEndOf="@+id/lekarstwoNazwa2"
         app:layout_constraintTop_toTopOf="parent"
@@ -119,7 +121,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.794"
         app:layout_constraintStart_toEndOf="@+id/etWyszukajLek"
