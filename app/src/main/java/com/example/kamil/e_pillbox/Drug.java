@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,17 +21,20 @@ public class Drug extends AppCompatActivity {
 private TextView nazwaLeku;
 private Button btUsun;
 private Button btZazylem;
-private EditText etDawka;
+public EditText etDawka;
 
 public SharedPreferences sharedPreferences;
 
 private LekarstwoDAO lekDAO;
 
-    @SuppressLint("WorldReadableFiles")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drug);
+
+
+        Main_Option obj=new Main_Option();
 
         sharedPreferences = getPreferences(Context.MODE_PRIVATE);
 
@@ -43,11 +47,18 @@ private LekarstwoDAO lekDAO;
         final Lekarstwo lekarstwo=(Lekarstwo)i.getSerializableExtra("lek_obiekt");
 
 
-        nazwaLeku.setText(lekarstwo.getNazwaLeku()+" "+lekarstwo.getIloscOpakowanie());
-
+        nazwaLeku.setText(lekarstwo.getNazwaLeku()+" "+(!lekarstwo.getIloscOpakowanie().equals("")?lekarstwo.getIloscOpakowanie():"brak ilosc"));
         btZazylem=findViewById(R.id.btZazylem);
+        btZazylem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                zazylemLek(v,lekarstwo);
+            }
+        });
+
         etDawka=findViewById(R.id.etDawka);
-        onLoad();
+
+        etDawka.setText(obj.getActivityInstance().getData());
 
         btUsun = findViewById(R.id.btUsun);
         btUsun.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +67,10 @@ private LekarstwoDAO lekDAO;
                 usunZBazy(v,lekarstwo);
             }
         });
+
+
     }
+    ////////////////////metody-funkcje
     public void usunZBazy(View view,Lekarstwo lekarstwo){
         lekDAO.deleteLek(lekarstwo);
         Toast.makeText(this,"usunieto z bazy ",Toast.LENGTH_SHORT).show();
@@ -64,9 +78,37 @@ private LekarstwoDAO lekDAO;
         startActivity(intent);
 
     }
-    public void onLoad(){
 
-        String string = sharedPreferences.getString("dawkaDomyslna", "nie dziala");
-        etDawka.setText(string);
+
+
+
+    public void zazylemLek(View view,Lekarstwo lek){
+
+
+        final int iloscOpakowanie= !lek.getIloscOpakowanie().equals("")? Integer.parseInt(lek.getIloscOpakowanie()):0;
+        final int dawka=Integer.parseInt(etDawka.getText().toString());
+        if(iloscOpakowanie > 0) {
+
+            if (iloscOpakowanie>=dawka){
+
+            lek.setIloscOpakowanie(Integer.toString(iloscOpakowanie - dawka));
+            lekDAO.updateLekByZazycie(lek);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            }else {
+                Toast.makeText(this,"Nie ma \nwystarczajacej ilosci lekarstwa \ndo zazycia podaj mniejszą dawkę",Toast.LENGTH_LONG).show();
+            }
+
+        }else{
+            Toast.makeText(this,"Brak tabletek do zazycia!",Toast.LENGTH_SHORT).show();
+        }
     }
+
+//    public String getDawkaOptions(Main_Option obj) {
+//        if(obj != null) {
+//            return obj.getActivityInstance().getData();
+//        } else {
+//            return "brak domyslnej ilosc";
+//        }
+//    }
 }

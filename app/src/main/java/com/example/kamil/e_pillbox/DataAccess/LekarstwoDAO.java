@@ -41,6 +41,16 @@ public class LekarstwoDAO {
 
 
     }
+    public void updateLekByZazycie(final Lekarstwo lek){
+        //Log.d("epilbox","updateLekByCheckbox "+lek.getNazwaLeku()+" "+lek.getIsZazyte()+" id: "+lek.getId().toString());
+
+        ContentValues cv=new ContentValues();
+        cv.put(Lek_interface.Columns.LEK_ILOSC,lek.getIloscOpakowanie());
+        dbHelper.getWritableDatabase().update(Lek_interface.TABLE_NAME,cv," "+Lek_interface.Columns.LEK_ID+" = ? ",new String[]{lek.getId().toString()});
+
+
+    }
+
 
 
 
