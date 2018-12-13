@@ -3,6 +3,8 @@ package com.example.kamil.e_pillbox;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -35,6 +37,7 @@ public class MyServiceDataWaznosci extends Service {
         Calendar cal = Calendar.getInstance();
         Date currentDate = cal.getTime();
 
+
          lekDAO=new LekarstwoDAO(this);
         List<Lekarstwo> allLeki = lekDAO.getAllData();
 
@@ -44,7 +47,16 @@ public class MyServiceDataWaznosci extends Service {
 
                 if(data_waznosci.before(currentDate)) {
                     Log.d("usluga_epilbox", lekarstwo.getNazwaLeku() + " przeterminowany");
-                    Toast.makeText(this, lekarstwo.getNazwaLeku() + " przeterminowany", Toast.LENGTH_SHORT).show();
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                            .setSmallIcon(R.drawable.pill)
+                            .setContentTitle("E-pillBox")
+                            .setContentText(lekarstwo.getNazwaLeku() + " przeterminowany")
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+                    notificationManager.notify(lekarstwo.getId(), mBuilder.build());
+                    // Toast.makeText(this, lekarstwo.getNazwaLeku() + " przeterminowany", Toast.LENGTH_SHORT).show();
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
